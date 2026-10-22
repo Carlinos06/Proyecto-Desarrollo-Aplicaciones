@@ -1,14 +1,43 @@
 package com.example.corpalivapp
 
+import android.net.Uri
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.automirrored.filled.Logout
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.NavigationDrawerItemDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -17,12 +46,17 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.corpalivapp.ui.auth.AuthViewModel
+import com.example.corpalivapp.ui.perfil.PerfilScreen
+import com.example.corpalivapp.ui.perfil.PerfilViewModel
 import kotlinx.coroutines.launch
+import java.io.File
 
 sealed class Destino(val ruta: String, val titulo: String, val icono: ImageVector) {
     object Inicio : Destino("inicio", "Inicio", Icons.Default.Home)
@@ -32,18 +66,24 @@ sealed class Destino(val ruta: String, val titulo: String, val icono: ImageVecto
     object Historias : Destino("historias", "Historias de impacto", Icons.Default.ThumbUp)
     object Colaborar : Destino("colaborar", "Formas de colaborar", Icons.Default.Favorite)
     object Contacto : Destino("contacto", "Contacto", Icons.Default.Email)
+    object Perfil : Destino("perfil", "Mi perfil", Icons.Default.AccountCircle)
 }
 
 private val todosLosDestinos = listOf(
     Destino.Inicio, Destino.QuienesSomos, Destino.Programas, Destino.Productos,
-    Destino.Historias, Destino.Colaborar, Destino.Contacto
+    Destino.Historias, Destino.Colaborar, Destino.Contacto, Destino.Perfil
 )
 
 @Composable
-fun AppNavigation() {
+fun MainNavigation(
+    authViewModel: AuthViewModel,
+    email: String
+) {
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val perfilViewModel: PerfilViewModel = viewModel()
+    val avatarPath by perfilViewModel.avatarPath.collectAsState()
     val entradaActual by navController.currentBackStackEntryAsState()
     val rutaActual = entradaActual?.destination?.route
 
@@ -66,26 +106,43 @@ fun AppNavigation() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(VerdeSuave)
-                            .statusBarsPadding()
                             .padding(24.dp)
                     ) {
                         Box(
                             modifier = Modifier
                                 .size(64.dp)
                                 .clip(CircleShape)
-                                .background(Color.White),
+                                .background(Color.White)
+                                .clickable {
+                                    scope.launch { drawerState.close() }
+                                    irA(Destino.Perfil)
+                                },
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(
-                                Icons.Default.Person,
-                                contentDescription = null,
-                                tint = VerdePrincipal,
-                                modifier = Modifier.size(40.dp)
+                            FotoPerfil(
+                                imagenUri = avatarPath?.let { Uri.fromFile(File(it)) },
+                                tamano = 60.dp,
+                                descripcion = "Mi perfil"
                             )
                         }
                         Spacer(Modifier.height(12.dp))
-                        Text("CORPALIV", fontSize = 22.sp, fontWeight = FontWeight.ExtraBold, color = VerdePrincipal)
-                        Text("Alba Lab", fontSize = 14.sp, color = TextoSecundario)
+                        Text(
+                            text = "CORPALIV",
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = VerdePrincipal
+                        )
+                        Text(
+                            text = "Alba Lab",
+                            fontSize = 14.sp,
+                            color = TextoSecundario
+                        )
+                        Text(
+                            text = email,
+                            fontSize = 12.sp,
+                            color = TextoSecundario,
+                            modifier = Modifier.padding(top = 6.dp)
+                        )
                     }
 
                     Spacer(Modifier.height(8.dp))
@@ -110,13 +167,42 @@ fun AppNavigation() {
                             )
                         )
                     }
+
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        color = VerdeSuave
+                    )
+
+                    NavigationDrawerItem(
+                        label = { Text("Cerrar sesión", fontSize = 16.sp) },
+                        icon = { Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = null) },
+                        selected = false,
+                        onClick = {
+                            scope.launch { drawerState.close() }
+                            authViewModel.cerrarSesion()
+                        },
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp),
+                        colors = NavigationDrawerItemDefaults.colors(
+                            unselectedContainerColor = Marfil,
+                            unselectedTextColor = TextoPrincipal,
+                            unselectedIconColor = TextoSecundario
+                        )
+                    )
+
+                    Spacer(Modifier.height(16.dp))
                 }
             }
         }
     ) {
         Scaffold(
             containerColor = Marfil,
-            topBar = { BarraSuperior(onMenuClick = abrirMenu) }
+            topBar = {
+                BarraSuperior(
+                    onMenuClick = abrirMenu,
+                    onPerfilClick = { irA(Destino.Perfil) },
+                    avatarPath = avatarPath
+                )
+            }
         ) { innerPadding ->
             NavHost(
                 navController = navController,
@@ -145,6 +231,12 @@ fun AppNavigation() {
                 }
                 composable(Destino.Contacto.ruta) {
                     PantallaSimple("Contacto", "Aquí irá el formulario de solicitud de colaboración.")
+                }
+                composable(Destino.Perfil.ruta) {
+                    PerfilScreen(
+                        viewModel = perfilViewModel,
+                        onCerrarSesion = { authViewModel.cerrarSesion() }
+                    )
                 }
             }
         }
