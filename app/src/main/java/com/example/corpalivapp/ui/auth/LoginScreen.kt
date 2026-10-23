@@ -38,7 +38,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.corpalivapp.Marfil
+<<<<<<< HEAD
 import com.example.corpalivapp.NegroLogin
+=======
+>>>>>>> 7e8de07d470569681bfa95328cb880b0bfd4942f
 import com.example.corpalivapp.TextoPrincipal
 import com.example.corpalivapp.TextoSecundario
 import com.example.corpalivapp.VerdePrincipal
