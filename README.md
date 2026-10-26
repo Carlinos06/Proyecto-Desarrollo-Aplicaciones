@@ -4,6 +4,8 @@ Aplicación Android desarrollada para la asignatura **DSY1105 – Desarrollo de 
 
 La app difunde el propósito, los programas y las formas de colaborar de **CORPALIV (Alba Lab)**, e incorpora un flujo de autenticación local y un perfil personalizable.
 
+> Guía de estudio del código: [GUIA_CODIGO.md](GUIA_CODIGO.md)
+
 ---
 
 ## Contexto del caso

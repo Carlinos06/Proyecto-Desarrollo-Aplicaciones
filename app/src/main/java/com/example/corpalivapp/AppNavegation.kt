@@ -232,24 +232,6 @@ fun MainNavigation(
                 }
                 composable(Destino.Contacto.ruta) {
                     ContactoScreen()
-
-                    PantallaSimple("Quiénes somos", "Aquí explicaremos qué es CORPALIV y el papel de Alba Lab.")
-                }
-                composable(Destino.Programas.ruta) {
-                    PantallaSimple("Programas", "Aquí mostraremos los programas de inclusión y su impacto social.")
-                }
-                composable(Destino.Productos.ruta) {
-                    PantallaSimple("Productos y servicios", "Aquí exploraremos la oferta de Alba Lab.")
-                }
-                composable(Destino.Historias.ruta) {
-                    PantallaSimple("Historias de impacto", "Aquí irán ejemplos ficticios, claramente marcados.")
-                }
-                composable(Destino.Colaborar.ruta) {
-                    PantallaSimple("Formas de colaborar", "Aquí presentaremos donaciones, voluntariado, alianzas y más.")
-                }
-                composable(Destino.Contacto.ruta) {
-                    PantallaSimple("Contacto", "Aquí irá el formulario de solicitud de colaboración.")
-
                 }
                 composable(Destino.Perfil.ruta) {
                     PerfilScreen(
