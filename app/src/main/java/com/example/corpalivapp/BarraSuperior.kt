@@ -1,10 +1,12 @@
 package com.example.corpalivapp
 
 import android.net.Uri
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -20,8 +22,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,13 +40,17 @@ fun BarraSuperior(
     TopAppBar(
         title = {
             Column {
-                Text(
-                    text = "CORPALIV",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = VerdePrincipal
+                Image(
+                    painter = painterResource(R.drawable.logo_corpaliv),
+                    contentDescription = "Corpaliv",
+                    modifier = Modifier.height(34.dp),
+                    contentScale = ContentScale.Fit
                 )
-                Text(text = "Alba Lab", fontSize = 12.sp, color = TextoSecundario)
+                Text(
+                    text = "Escuela Jan Van Dijk · Alba Lab",
+                    fontSize = 10.sp,
+                    color = TextoSecundario
+                )
             }
         },
         navigationIcon = {

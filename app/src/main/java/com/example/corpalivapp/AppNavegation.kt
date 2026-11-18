@@ -1,6 +1,7 @@
 package com.example.corpalivapp
 
 import android.net.Uri
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -21,10 +22,12 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Payments
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
@@ -43,7 +46,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -53,6 +58,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.corpalivapp.ui.auth.AuthViewModel
+import com.example.corpalivapp.ui.donacion.DonacionScreen
 import com.example.corpalivapp.ui.perfil.PerfilScreen
 import com.example.corpalivapp.ui.perfil.PerfilViewModel
 import kotlinx.coroutines.launch
@@ -65,13 +71,14 @@ sealed class Destino(val ruta: String, val titulo: String, val icono: ImageVecto
     object Productos : Destino("productos", "Productos y servicios", Icons.Default.ShoppingCart)
     object Historias : Destino("historias", "Historias de impacto", Icons.Default.ThumbUp)
     object Colaborar : Destino("colaborar", "Formas de colaborar", Icons.Default.Favorite)
+    object Donar : Destino("donar", "Donar", Icons.Default.Payments)
     object Contacto : Destino("contacto", "Contacto", Icons.Default.Email)
     object Perfil : Destino("perfil", "Mi perfil", Icons.Default.AccountCircle)
 }
 
 private val todosLosDestinos = listOf(
     Destino.Inicio, Destino.QuienesSomos, Destino.Programas, Destino.Productos,
-    Destino.Historias, Destino.Colaborar, Destino.Contacto, Destino.Perfil
+    Destino.Historias, Destino.Colaborar, Destino.Donar, Destino.Contacto, Destino.Perfil
 )
 
 @Composable
@@ -82,6 +89,7 @@ fun MainNavigation(
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
     val perfilViewModel: PerfilViewModel = viewModel()
     val avatarPath by perfilViewModel.avatarPath.collectAsState()
     val entradaActual by navController.currentBackStackEntryAsState()
@@ -126,16 +134,13 @@ fun MainNavigation(
                             )
                         }
                         Spacer(Modifier.height(12.dp))
-                        Text(
-                            text = "CORPALIV",
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = VerdePrincipal
-                        )
-                        Text(
-                            text = "Alba Lab",
-                            fontSize = 14.sp,
-                            color = TextoSecundario
+                        Image(
+                            painter = painterResource(R.drawable.logo_corpaliv),
+                            contentDescription = "Corpaliv",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(54.dp),
+                            contentScale = ContentScale.Fit
                         )
                         Text(
                             text = email,
@@ -173,6 +178,16 @@ fun MainNavigation(
                         color = VerdeSuave
                     )
 
+                    RedesSocialesCorpaliv(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        compacto = true
+                    )
+
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        color = VerdeSuave
+                    )
+
                     NavigationDrawerItem(
                         label = { Text("Cerrar sesión", fontSize = 16.sp) },
                         icon = { Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = null) },
@@ -202,6 +217,23 @@ fun MainNavigation(
                     onPerfilClick = { irA(Destino.Perfil) },
                     avatarPath = avatarPath
                 )
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {
+                        abrirEnlaceExterno(context, EnlacesCorpaliv.WHATSAPP)
+                    },
+                    modifier = Modifier.size(60.dp),
+                    shape = CircleShape,
+                    containerColor = Color(0xFF25D366),
+                    contentColor = Color.White
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_whatsapp),
+                        contentDescription = "Escríbenos por WhatsApp",
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
             }
         ) { innerPadding ->
             NavHost(
@@ -229,6 +261,9 @@ fun MainNavigation(
                 }
                 composable(Destino.Colaborar.ruta) {
                     ColaborarScreen(onIrA = { irA(it) })
+                }
+                composable(Destino.Donar.ruta) {
+                    DonacionScreen()
                 }
                 composable(Destino.Contacto.ruta) {
                     ContactoScreen()

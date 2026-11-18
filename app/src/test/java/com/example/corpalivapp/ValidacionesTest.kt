@@ -28,6 +28,32 @@ class ValidacionesTest {
     }
 
     @Test
+    fun `confirmacion de email`() {
+        assertNull(Validaciones.confirmarEmail("correo@dominio.cl", "correo@dominio.cl"))
+        assertNull(Validaciones.confirmarEmail("Correo@Dominio.cl", "correo@dominio.cl"))
+        assertNotNull(Validaciones.confirmarEmail("correo@dominio.cl", ""))
+        assertNotNull(Validaciones.confirmarEmail("correo@dominio.cl", "otro@dominio.cl"))
+    }
+
+    @Test
+    fun `rut valido e invalido`() {
+        assertNull(Validaciones.rut("73.100.200-2"))
+        assertNull(Validaciones.rut("12.345.678-5"))
+        assertNotNull(Validaciones.rut(""))
+        assertNotNull(Validaciones.rut("123"))
+        assertNotNull(Validaciones.rut("12.345.678-9"))
+    }
+
+    @Test
+    fun `monto de donacion valido e invalido`() {
+        assertNull(Validaciones.monto("10000"))
+        assertNotNull(Validaciones.monto(""))
+        assertNotNull(Validaciones.monto("0"))
+        assertNotNull(Validaciones.monto("-5000"))
+        assertNotNull(Validaciones.monto("diez mil"))
+    }
+
+    @Test
     fun `telefono valido e invalido`() {
         assertNull(Validaciones.telefono("912345678"))
         assertNull(Validaciones.telefono("22345678"))

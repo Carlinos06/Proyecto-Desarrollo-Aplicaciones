@@ -36,6 +36,48 @@ object Validaciones {
         }
     }
 
+    fun confirmarEmail(email: String, confirmacion: String): String? {
+        val correo = email.trim()
+        val repetido = confirmacion.trim()
+        return when {
+            repetido.isEmpty() -> "Repite tu correo electrónico."
+            !correo.equals(repetido, ignoreCase = true) -> "Los correos no coinciden."
+            else -> null
+        }
+    }
+
+    fun rut(valor: String): String? {
+        val limpio = valor
+            .replace(".", "")
+            .replace("-", "")
+            .trim()
+            .uppercase()
+
+        if (limpio.isEmpty()) return "El RUT es obligatorio."
+        if (!Regex("^\\d{7,8}[0-9K]$").matches(limpio)) {
+            return "Ingresa un RUT válido (ej. 12.345.678-5)."
+        }
+
+        val cuerpo = limpio.dropLast(1)
+        val dv = limpio.last()
+        var suma = 0
+        var factor = 2
+
+        for (i in cuerpo.length - 1 downTo 0) {
+            suma += (cuerpo[i] - '0') * factor
+            factor = if (factor == 7) 2 else factor + 1
+        }
+
+        val resto = 11 - (suma % 11)
+        val dvEsperado = when (resto) {
+            11 -> '0'
+            10 -> 'K'
+            else -> resto.toString()[0]
+        }
+
+        return if (dv == dvEsperado) null else "El RUT no es válido."
+    }
+
     fun telefono(valor: String): String? {
         val texto = valor.trim()
         return when {
@@ -90,6 +132,13 @@ object Validaciones {
 
     fun terminos(acepta: Boolean): String? {
         return if (acepta) null else "Debes aceptar los términos para continuar."
+    }
+
+    fun monto(valor: String): String? {
+        val texto = valor.trim()
+        if (texto.isEmpty()) return "Ingresa el monto que quieres donar."
+        val numero = texto.toIntOrNull() ?: return "Ingresa solo números."
+        return if (numero <= 0) "El monto debe ser mayor a 0." else null
     }
 
     fun fortalezaPassword(valor: String): Int {

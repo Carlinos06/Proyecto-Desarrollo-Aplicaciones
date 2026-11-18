@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -200,8 +201,8 @@ fun ColaborarScreen(onIrA: (Destino) -> Unit) {
             titulo = "Donaciones",
             texto = "Aportes que apoyan las actividades de la organización. CORPALIV informará " +
                     "el destino de los aportes.",
-            textoBoton = "Quiero participar"
-        ) { onIrA(Destino.Contacto) }
+            textoBoton = "Donar ahora"
+        ) { onIrA(Destino.Donar) }
 
         TarjetaContenido(
             icono = Icons.Default.Business,
@@ -237,11 +238,15 @@ fun ColaborarScreen(onIrA: (Destino) -> Unit) {
             texto = "Actividades de formación y responsabilidad social empresarial para tu equipo.",
             textoBoton = "Quiero participar"
         ) { onIrA(Destino.Contacto) }
+
+        BotonPrincipal("Ir al formulario de donación") { onIrA(Destino.Donar) }
     }
 }
 
 @Composable
 fun ContactoScreen() {
+    val context = LocalContext.current
+
     PantallaBase(
         titulo = "Contacto",
         introduccion = "Cuéntanos cómo te gustaría colaborar. El equipo de vinculación de " +
@@ -264,6 +269,21 @@ fun ContactoScreen() {
             titulo = "3. Te contactamos",
             texto = "El equipo de vinculación se pondrá en contacto contigo."
         )
+
+        TarjetaContenido(
+            icono = Icons.Default.Email,
+            titulo = "Escríbenos",
+            texto = "comunicaciones@corpaliv.cl",
+            textoBoton = "Enviar correo"
+        ) {
+            abrirEnlaceExterno(context, EnlacesCorpaliv.CORREO_CONTACTO)
+        }
+
+        BotonPrincipal("Escribir por WhatsApp") {
+            abrirEnlaceExterno(context, EnlacesCorpaliv.WHATSAPP)
+        }
+
+        RedesSocialesCorpaliv()
 
         TarjetaContenido(
             icono = Icons.Default.Info,
@@ -294,7 +314,7 @@ private fun PantallaBase(
         Text(titulo, fontSize = 28.sp, fontWeight = FontWeight.Bold, color = TextoPrincipal)
         Text(introduccion, fontSize = 16.sp, color = TextoSecundario)
         contenido()
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(80.dp))
     }
 }
 

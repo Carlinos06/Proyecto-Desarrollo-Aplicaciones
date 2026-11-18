@@ -49,8 +49,21 @@ La aplicación busca centralizar la propuesta de valor y facilitar el paso desde
 
 ### Navegación
 - Flujo inicial Login → Registro → Aplicación principal.
-- Menú lateral con las secciones: Inicio, Quiénes somos, Programas, Productos y servicios, Historias de impacto, Formas de colaborar, Contacto y Mi perfil.
+- Menú lateral con las secciones: Inicio, Quiénes somos, Programas, Productos y servicios, Historias de impacto, Formas de colaborar, Donar, Contacto y Mi perfil.
 - Animaciones de transición entre pantallas y retroalimentación visual.
+
+### Redes sociales y contacto
+- Accesos directos a Facebook, Instagram y LinkedIn desde Inicio y el menú lateral.
+- Botón flotante de WhatsApp con enlace directo al número oficial de CORPALIV.
+- Acceso por correo y WhatsApp desde la pantalla de Contacto.
+
+### Donaciones
+- Formulario con nombre, RUT, email, confirmación de email, medio de pago y monto.
+- Medios de pago: Transbank y Flow.
+- Montos rápidos de $10.000 y $30.000, además de la opción “Otro monto”.
+- Validación de RUT con dígito verificador, correos coincidentes y monto mayor a cero.
+- Datos de transferencia bancaria directa y enlace a la plataforma oficial de donaciones.
+- En esta versión el formulario es local: registra la intención de donación y muestra una confirmación, sin procesar pagos reales.
 
 ---
 
@@ -80,6 +93,9 @@ app/src/main/java/com/example/corpalivapp/
 │   │   └── components/
 │   ├── navigation/
 │   │   └── AppRoot.kt              # Decide login o app principal
+│   ├── donacion/
+│   │   ├── DonacionViewModel.kt    # Estado y validaciones del formulario
+│   │   └── DonacionScreen.kt       # Formulario de donación
 │   └── perfil/
 │       ├── PerfilViewModel.kt
 │       └── PerfilScreen.kt
@@ -89,6 +105,7 @@ app/src/main/java/com/example/corpalivapp/
 ├── FotoPerfil.kt
 ├── HomeScreen.kt
 ├── MainActivity.kt
+├── RedesSociales.kt                # Enlaces a redes, WhatsApp y correo
 └── ui/theme/
 ```
 
@@ -124,6 +141,9 @@ Ambos recursos se integran en el perfil y gestionan permisos de forma segura. La
 - Confirmación de contraseña.
 - Aceptación obligatoria de términos.
 - Indicador visual de fortaleza de contraseña.
+- RUT chileno con validación de dígito verificador.
+- Confirmación de email para donaciones.
+- Monto de donación mayor a cero.
 - Validación en la lógica (`domain/Validaciones.kt`), separada de los componentes visuales.
 
 ---
@@ -181,7 +201,7 @@ app/build/outputs/apk/debug/app-debug.apk
 gradlew.bat :app:testDebugUnitTest
 ```
 
-Las pruebas cubren las reglas de validación de nombre, correo, teléfono, fecha, contraseña y fortaleza.
+Las pruebas cubren las reglas de validación de nombre, correo, confirmación de email, RUT, teléfono, fecha, contraseña, monto de donación y fortaleza de contraseña.
 
 ---
 
@@ -191,7 +211,8 @@ Las pruebas cubren las reglas de validación de nombre, correo, teléfono, fecha
 - Se usa un salt único por cuenta y `PBKDF2` para derivar el hash.
 - Las imágenes se copian al almacenamiento privado de la aplicación.
 - No se utilizan datos reales de beneficiarios.
-- El proyecto no incluye backend ni transmisión de datos a internet: todo funciona localmente para este MVP.
+- La app no envía datos a internet: el registro, el perfil y el formulario de donación funcionan localmente para este MVP.
+- Los botones de redes sociales, WhatsApp y la plataforma oficial de donaciones abren servicios externos en el navegador o en la app correspondiente.
 
 ---
 
@@ -202,11 +223,13 @@ Implementado:
 - Contraseñas cifradas y persistencia local.
 - Perfil con portada y avatar desde cámara o archivos.
 - Navegación principal y cierre de sesión.
+- Accesos a Facebook, Instagram, LinkedIn y WhatsApp.
+- Formulario de donación con validaciones y datos bancarios.
 - Validaciones y animaciones.
 
 Pendiente / mejoras futuras:
 - Completar el contenido real de las secciones informativas.
-- Formulario de contacto/colaboración.
+- Integrar una pasarela de pago real para el formulario de donación.
 - Notificaciones locales al registrar una cuenta o recibir novedades.
 - Integración con un backend/API REST.
 - Recuperación de contraseña.
