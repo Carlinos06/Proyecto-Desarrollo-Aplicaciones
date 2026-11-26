@@ -1,5 +1,6 @@
 package com.example.corpalivapp.ui.navigation
 
+import android.app.Activity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -20,14 +21,18 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -49,6 +54,16 @@ import com.example.corpalivapp.ui.auth.SesionEstado
 fun AppRoot() {
     val authViewModel: AuthViewModel = viewModel()
     val sesion by authViewModel.sesion.collectAsState()
+    val context = LocalContext.current
+    val view = LocalView.current
+
+    // La barra superior principal es morada, así que necesita iconos claros.
+    // En login, registro y carga el fondo es claro y los iconos deben ser oscuros.
+    SideEffect {
+        val activity = context as? Activity ?: return@SideEffect
+        WindowCompat.getInsetsController(activity.window, view)
+            .isAppearanceLightStatusBars = sesion !is SesionEstado.Activa
+    }
 
     AnimatedContent(
         targetState = sesion,

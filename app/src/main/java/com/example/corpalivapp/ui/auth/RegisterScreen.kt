@@ -54,14 +54,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.corpalivapp.AmarilloCorpaliv
+import com.example.corpalivapp.BordeSuave
 import com.example.corpalivapp.Marfil
+import com.example.corpalivapp.RojoCorpaliv
 import com.example.corpalivapp.TextoPrincipal
 import com.example.corpalivapp.TextoSecundario
+import com.example.corpalivapp.VerdeCorpaliv
 import com.example.corpalivapp.VerdePrincipal
 import com.example.corpalivapp.VerdeSuave
 import com.example.corpalivapp.domain.Validaciones
@@ -291,13 +294,13 @@ fun RegisterScreen(
                         Icon(
                             Icons.Default.ErrorOutline,
                             contentDescription = null,
-                            tint = Color(0xFFB3261E),
+                            tint = RojoCorpaliv,
                             modifier = Modifier.size(16.dp)
                         )
                         Spacer(Modifier.width(4.dp))
                         Text(
                             text = estado.terminosError.orEmpty(),
-                            color = Color(0xFFB3261E),
+                            color = RojoCorpaliv,
                             fontSize = 12.sp
                         )
                     }
@@ -337,9 +340,9 @@ private fun IndicadorFortaleza(valor: String) {
     val fuerza = Validaciones.fortalezaPassword(valor)
     val color by animateColorAsState(
         targetValue = when (fuerza) {
-            1 -> Color(0xFFD32F2F)
-            2 -> Color(0xFFF9A825)
-            else -> VerdePrincipal
+            1 -> RojoCorpaliv
+            2 -> AmarilloCorpaliv
+            else -> VerdeCorpaliv
         },
         label = "colorFortaleza"
     )
@@ -351,7 +354,7 @@ private fun IndicadorFortaleza(valor: String) {
         Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             repeat(3) { indice ->
                 val colorSegmento by animateColorAsState(
-                    targetValue = if (indice < fuerza) color else Color(0xFFE0E0E0),
+                    targetValue = if (indice < fuerza) color else BordeSuave,
                     label = "segmentoFortaleza$indice"
                 )
                 Box(

@@ -9,54 +9,66 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import com.example.corpalivapp.AmarilloCorpaliv
+import com.example.corpalivapp.BordeSuave
+import com.example.corpalivapp.LavandaSuave
+import com.example.corpalivapp.MagentaCorpaliv
 import com.example.corpalivapp.Marfil
+import com.example.corpalivapp.MoradoCorpaliv
+import com.example.corpalivapp.MoradoMedio
+import com.example.corpalivapp.MoradoOscuro
+import com.example.corpalivapp.RojoCorpaliv
+import com.example.corpalivapp.RosaCorpaliv
 import com.example.corpalivapp.TextoPrincipal
 import com.example.corpalivapp.TextoSecundario
-import com.example.corpalivapp.VerdePrincipal
-import com.example.corpalivapp.VerdeSuave
 
 private val DarkColorScheme = darkColorScheme(
-    primary = VerdePrincipal,
-    onPrimary = Color(0xFF00390F),
-    primaryContainer = Color(0xFF1F5C31),
-    onPrimaryContainer = Color(0xFFD7F5DC),
-    secondary = VerdeSuave,
-    onSecondary = TextoPrincipal,
-    secondaryContainer = Color(0xFF2A3A2D),
-    onSecondaryContainer = Color(0xFFD7F5DC),
-    tertiary = TextoSecundario,
-    onTertiary = Color.White,
-    background = Color(0xFF111812),
-    onBackground = Color(0xFFE5F0E6),
-    surface = Color(0xFF1A231C),
-    onSurface = Color(0xFFE5F0E6),
-    surfaceVariant = Color(0xFF2A3A2D),
-    onSurfaceVariant = Color(0xFFA8B5A9),
-    outline = Color(0xFF4A5A4C),
+    primary = MoradoMedio,
+    onPrimary = Color(0xFF2A0045),
+    primaryContainer = MoradoCorpaliv,
+    onPrimaryContainer = Color.White,
+    secondary = RosaCorpaliv,
+    onSecondary = Color(0xFF3A005C),
+    secondaryContainer = MoradoOscuro,
+    onSecondaryContainer = Color.White,
+    tertiary = AmarilloCorpaliv,
+    onTertiary = Color(0xFF3A005C),
+    background = Color(0xFF14001F),
+    onBackground = Color(0xFFF5EEFA),
+    surface = Color(0xFF1F0030),
+    onSurface = Color(0xFFF5EEFA),
+    surfaceVariant = Color(0xFF2E0045),
+    onSurfaceVariant = Color(0xFFD5C2E6),
+    outline = Color(0xFF6B4A85),
     error = Color(0xFFFFB4AB),
     onError = Color(0xFF690005)
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = VerdePrincipal,
+    primary = MoradoCorpaliv,
     onPrimary = Color.White,
-    primaryContainer = VerdeSuave,
-    onPrimaryContainer = TextoPrincipal,
-    secondary = TextoSecundario,
+    primaryContainer = LavandaSuave,
+    onPrimaryContainer = MoradoOscuro,
+    secondary = MagentaCorpaliv,
     onSecondary = Color.White,
-    secondaryContainer = VerdeSuave,
+    secondaryContainer = Color(0xFFFCE4F0),
     onSecondaryContainer = TextoPrincipal,
-    tertiary = TextoPrincipal,
-    onTertiary = Color.White,
+    tertiary = RosaCorpaliv,
+    onTertiary = Color(0xFF3A005C),
+    tertiaryContainer = Color(0xFFFDE7F1),
+    onTertiaryContainer = MoradoOscuro,
     background = Marfil,
     onBackground = TextoPrincipal,
     surface = Color.White,
     onSurface = TextoPrincipal,
-    surfaceVariant = VerdeSuave,
+    surfaceVariant = LavandaSuave,
     onSurfaceVariant = TextoSecundario,
-    outline = VerdeSuave,
-    error = Color(0xFFB3261E),
-    onError = Color.White
+    outline = BordeSuave,
+    outlineVariant = BordeSuave,
+    error = RojoCorpaliv,
+    onError = Color.White,
+    errorContainer = Color(0xFFF9DEDC),
+    onErrorContainer = Color(0xFF410E0B)
 )
 
 @Composable

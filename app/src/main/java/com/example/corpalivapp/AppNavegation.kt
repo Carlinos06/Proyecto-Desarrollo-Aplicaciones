@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
@@ -108,12 +109,12 @@ fun MainNavigation(
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet(drawerContainerColor = Marfil) {
+            ModalDrawerSheet(drawerContainerColor = MoradoCorpaliv) {
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(VerdeSuave)
+                            .background(MoradoOscuro)
                             .padding(24.dp)
                     ) {
                         Box(
@@ -134,18 +135,26 @@ fun MainNavigation(
                             )
                         }
                         Spacer(Modifier.height(12.dp))
-                        Image(
-                            painter = painterResource(R.drawable.logo_corpaliv),
-                            contentDescription = "Corpaliv",
+                        Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(54.dp),
-                            contentScale = ContentScale.Fit
-                        )
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(Color.White)
+                                .padding(horizontal = 12.dp, vertical = 8.dp)
+                        ) {
+                            Image(
+                                painter = painterResource(R.drawable.logo_corpaliv),
+                                contentDescription = "Corpaliv",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(44.dp),
+                                contentScale = ContentScale.Fit
+                            )
+                        }
                         Text(
                             text = email,
                             fontSize = 12.sp,
-                            color = TextoSecundario,
+                            color = Color.White.copy(alpha = 0.8f),
                             modifier = Modifier.padding(top = 6.dp)
                         )
                     }
@@ -163,29 +172,30 @@ fun MainNavigation(
                             },
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp),
                             colors = NavigationDrawerItemDefaults.colors(
-                                selectedContainerColor = VerdeSuave,
-                                selectedTextColor = TextoPrincipal,
-                                selectedIconColor = VerdePrincipal,
-                                unselectedContainerColor = Marfil,
-                                unselectedTextColor = TextoPrincipal,
-                                unselectedIconColor = TextoSecundario
+                                selectedContainerColor = Color.White.copy(alpha = 0.16f),
+                                selectedTextColor = Color.White,
+                                selectedIconColor = AmarilloCorpaliv,
+                                unselectedContainerColor = Color.Transparent,
+                                unselectedTextColor = Color.White,
+                                unselectedIconColor = Color.White.copy(alpha = 0.72f)
                             )
                         )
                     }
 
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                        color = VerdeSuave
+                        color = Color.White.copy(alpha = 0.18f)
                     )
 
                     RedesSocialesCorpaliv(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                        compacto = true
+                        compacto = true,
+                        sobreFondoOscuro = true
                     )
 
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                        color = VerdeSuave
+                        color = Color.White.copy(alpha = 0.18f)
                     )
 
                     NavigationDrawerItem(
@@ -198,9 +208,9 @@ fun MainNavigation(
                         },
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 2.dp),
                         colors = NavigationDrawerItemDefaults.colors(
-                            unselectedContainerColor = Marfil,
-                            unselectedTextColor = TextoPrincipal,
-                            unselectedIconColor = TextoSecundario
+                            unselectedContainerColor = Color.Transparent,
+                            unselectedTextColor = Color.White,
+                            unselectedIconColor = Color.White.copy(alpha = 0.72f)
                         )
                     )
 

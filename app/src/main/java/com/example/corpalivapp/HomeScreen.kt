@@ -59,7 +59,7 @@ fun HomeScreen(
             text = "Explora Corpaliv",
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
-            color = TextoPrincipal
+            color = MoradoCorpaliv
         )
 
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -83,7 +83,7 @@ fun HomeScreen(
             text = "Cada aporte transforma vidas",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            color = TextoPrincipal
+            color = MoradoCorpaliv
         )
         Text(
             text = "Tu donación nos permite seguir creando oportunidades de inclusión social y laboral.",
@@ -108,7 +108,7 @@ private fun HeroCorpaliv(onIrA: (Destino) -> Unit) {
             .clip(RoundedCornerShape(28.dp))
             .background(
                 Brush.linearGradient(
-                    colors = listOf(Color(0xFF3BBF5A), Color(0xFF1F7A45))
+                    colors = listOf(MoradoCorpaliv, MoradoMedio)
                 )
             )
     ) {
@@ -183,7 +183,7 @@ private fun DonacionCta(onClick: () -> Unit) {
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF2F9E58)),
+        colors = CardDefaults.cardColors(containerColor = MagentaCorpaliv),
         elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
     ) {
         Row(

@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -26,8 +24,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -64,7 +62,7 @@ private data class RedSocial(
     val nombre: String,
     val url: String,
     val color: Color,
-    val icono: ImageVector? = null,
+    val iconoRes: Int? = null,
     val inicial: String? = null
 )
 
@@ -79,7 +77,7 @@ private val redesSociales = listOf(
         nombre = "Instagram",
         url = EnlacesCorpaliv.INSTAGRAM,
         color = Color(0xFFE4405F),
-        icono = Icons.Default.CameraAlt
+        iconoRes = R.drawable.ic_instagram
     ),
     RedSocial(
         nombre = "LinkedIn",
@@ -95,7 +93,8 @@ private val redesSociales = listOf(
 @Composable
 fun RedesSocialesCorpaliv(
     modifier: Modifier = Modifier,
-    compacto: Boolean = false
+    compacto: Boolean = false,
+    sobreFondoOscuro: Boolean = false
 ) {
     val context = LocalContext.current
 
@@ -107,7 +106,7 @@ fun RedesSocialesCorpaliv(
             text = "Síguenos en redes",
             fontSize = if (compacto) 14.sp else 18.sp,
             fontWeight = FontWeight.Bold,
-            color = TextoPrincipal
+            color = if (sobreFondoOscuro) Color.White else MoradoCorpaliv
         )
 
         Row(
@@ -119,8 +118,16 @@ fun RedesSocialesCorpaliv(
                     onClick = { abrirEnlaceExterno(context, red.url) },
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(18.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                    colors = CardDefaults.cardColors(
+                        containerColor = if (sobreFondoOscuro) {
+                            Color.Transparent
+                        } else {
+                            Color.White
+                        }
+                    ),
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = if (sobreFondoOscuro) 0.dp else 2.dp
+                    )
                 ) {
                     Column(
                         modifier = Modifier
@@ -136,9 +143,10 @@ fun RedesSocialesCorpaliv(
                                 .background(red.color),
                             contentAlignment = Alignment.Center
                         ) {
-                            if (red.icono != null) {
+                            val iconoRes = red.iconoRes
+                            if (iconoRes != null) {
                                 Icon(
-                                    imageVector = red.icono,
+                                    painter = painterResource(iconoRes),
                                     contentDescription = red.nombre,
                                     tint = Color.White,
                                     modifier = Modifier.size(if (compacto) 18.dp else 22.dp)
@@ -157,7 +165,7 @@ fun RedesSocialesCorpaliv(
                             text = red.nombre,
                             fontSize = if (compacto) 11.sp else 13.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = TextoPrincipal
+                            color = if (sobreFondoOscuro) Color.White else TextoPrincipal
                         )
                     }
                 }

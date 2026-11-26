@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
@@ -40,16 +42,23 @@ fun BarraSuperior(
     TopAppBar(
         title = {
             Column {
-                Image(
-                    painter = painterResource(R.drawable.logo_corpaliv),
-                    contentDescription = "Corpaliv",
-                    modifier = Modifier.height(34.dp),
-                    contentScale = ContentScale.Fit
-                )
+                Box(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(10.dp))
+                        .background(Color.White)
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.logo_corpaliv),
+                        contentDescription = "Corpaliv",
+                        modifier = Modifier.height(30.dp),
+                        contentScale = ContentScale.Fit
+                    )
+                }
                 Text(
                     text = "Escuela Jan Van Dijk · Alba Lab",
                     fontSize = 10.sp,
-                    color = TextoSecundario
+                    color = Color.White.copy(alpha = 0.78f)
                 )
             }
         },
@@ -58,7 +67,7 @@ fun BarraSuperior(
                 Icon(
                     imageVector = Icons.Default.Menu,
                     contentDescription = "Abrir menú",
-                    tint = VerdePrincipal
+                    tint = Color.White
                 )
             }
         },
@@ -81,8 +90,10 @@ fun BarraSuperior(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Marfil,
-            titleContentColor = TextoPrincipal
+            containerColor = MoradoCorpaliv,
+            titleContentColor = Color.White,
+            navigationIconContentColor = Color.White,
+            actionIconContentColor = Color.White
         )
     )
 }
